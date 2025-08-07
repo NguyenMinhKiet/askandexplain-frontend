@@ -46,8 +46,8 @@ function QuestionDetail(): JSX.Element {
     if (!question) return <div className="p-6">❌ Câu hỏi không tồn tại.</div>;
 
     return (
-        <div className="max-w-4xl mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6">🧠 Ask & Explain</h1>
+        <div className="max-w-5xl mx-auto p-6">
+            <h1 className="text-3xl font-bold mb-6 text-center">🧠 Ask & Explain</h1>
 
             <div className="max-w-3xl mx-auto p-6">
                 <h2 className="text-2xl font-bold mb-4">{question.title}</h2>
@@ -55,10 +55,8 @@ function QuestionDetail(): JSX.Element {
                 <div className="text-sm text-gray-500">Người hỏi: {question.author}</div>
                 <div className="text-sm text-gray-500 mb-6">{question.answerCount} lượt giải thích</div>
 
-                {/* Khu vực câu trả lời sau này */}
                 <div className="mt-8 border-t pt-4">
                     <div className="flex justify-between">
-                        <h2 className="text-lg font-semibold mb-4">📌 Các câu trả lời</h2>
                         {isLogin && (
                             <div className="text-sm">
                                 {
@@ -84,10 +82,9 @@ function QuestionDetail(): JSX.Element {
                         <p className="text-gray-500 italic">Chưa có câu trả lời nào.</p>
                     )}
                 </div>
-
-                <div className="mt-8 border-t pt-4">
-                    <QuestionList questions={questions} />
-                </div>
+            </div>
+            <div className="mt-8 border-t pt-4">
+                <QuestionList questions={questions.filter((item) => item.id !== Number(id))} direction="horizontal" />
             </div>
         </div>
     );

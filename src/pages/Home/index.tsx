@@ -21,8 +21,8 @@ function Home(): JSX.Element {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6">🧠 Ask & Explain</h1>
+        <div className="max-w-5xl mx-auto p-6">
+            <h1 className="text-3xl font-bold mb-6 text-center">🧠 Ask & Explain</h1>
 
             <div className="mb-4 text-right">
                 {isLogin && (
