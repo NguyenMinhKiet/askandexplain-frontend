@@ -22,10 +22,6 @@ function QuestionList({ questions, direction = 'vertical' }: Props) {
     }, [questions]);
 
     useEffect(() => {
-        console.log(direction);
-    }, []);
-
-    useEffect(() => {
         if (direction !== 'horizontal') return;
         const el = scrollRef.current;
         if (!el) return;
