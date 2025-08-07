@@ -1,0 +1,248 @@
+[
+    {
+        "id": 1,
+        "title": "Phân biệt \"say\" và \"tell\" như thế nào?",
+        "description": "Mình học hoài không hiểu cách dùng say với tell trong câu. Giúp mình với!",
+        "author": "nguyenvana",
+        "answerCount": 3,
+        "answers": [
+            {
+                "id": 1,
+                "content": "\"Say\" không cần tân ngữ, \"tell\" cần. Ví dụ: He said he was tired. He told me he was tired.",
+                "author": "teacherA",
+                "createdAt": "2025-08-06T09:00:00Z"
+            },
+            {
+                "id": 2,
+                "content": "Dễ nhớ: tell + someone + something, say + something.",
+                "author": "studentB",
+                "createdAt": "2025-08-06T10:15:00Z"
+            },
+            {
+                "id": 3,
+                "content": "Tell dùng khi có người nhận, say thì không nhất thiết.",
+                "author": "user123",
+                "createdAt": "2025-08-06T12:30:00Z"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "title": "Cách dùng thì hiện tại hoàn thành?",
+        "description": "Khi nào thì dùng thì hiện tại hoàn thành? Có mẹo gì nhớ không?",
+        "author": "lethib",
+        "answerCount": 5,
+        "answers": [
+            {
+                "id": 1,
+                "content": "Dùng khi hành động xảy ra trong quá khứ nhưng còn liên quan đến hiện tại.",
+                "author": "teacherB",
+                "createdAt": "2025-08-06T08:30:00Z"
+            },
+            {
+                "id": 2,
+                "content": "Có thể dùng với \"just\", \"already\", \"yet\", \"ever\"...",
+                "author": "thuyhoang",
+                "createdAt": "2025-08-06T08:45:00Z"
+            },
+            {
+                "id": 3,
+                "content": "Thì này dùng khi không rõ thời gian cụ thể.",
+                "author": "kienle",
+                "createdAt": "2025-08-06T09:10:00Z"
+            },
+            {
+                "id": 4,
+                "content": "Cấu trúc: have/has + V3 (past participle).",
+                "author": "nguyenmai",
+                "createdAt": "2025-08-06T09:20:00Z"
+            },
+            {
+                "id": 5,
+                "content": "Dùng để nói về trải nghiệm: I have been to Japan.",
+                "author": "admin",
+                "createdAt": "2025-08-06T10:00:00Z"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "title": "Phân biệt \"another\" và \"other\"?",
+        "description": "Mình thấy nhiều người dùng khác nhau mà không rõ quy tắc.",
+        "author": "tranvanc",
+        "answerCount": 2,
+        "answers": [
+            {
+                "id": 1,
+                "content": "\"Another\" dùng cho số ít, \"other\" dùng cho số nhiều hoặc không xác định.",
+                "author": "linhtv",
+                "createdAt": "2025-08-06T07:45:00Z"
+            },
+            {
+                "id": 2,
+                "content": "Ví dụ: another book vs other books.",
+                "author": "dungnm",
+                "createdAt": "2025-08-06T08:00:00Z"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "title": "Có phải \"much\" luôn đi với danh từ không đếm được?",
+        "description": "Cho ví dụ giúp mình dễ hiểu hơn với!",
+        "author": "phamthid",
+        "answerCount": 1,
+        "answers": [
+            {
+                "id": 1,
+                "content": "Đúng rồi, ví dụ: much water, much money, much information.",
+                "author": "anhtuan",
+                "createdAt": "2025-08-06T07:30:00Z"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "title": "Phân biệt \"in time\" và \"on time\"?",
+        "description": "Hai cụm này khác nhau chỗ nào? Có thể dùng thay thế nhau không?",
+        "author": "hoangminh",
+        "answerCount": 4,
+        "answers": [
+            {
+                "id": 1,
+                "content": "\"On time\" là đúng giờ theo kế hoạch, \"in time\" là vừa kịp lúc.",
+                "author": "giangbui",
+                "createdAt": "2025-08-06T08:20:00Z"
+            },
+            {
+                "id": 2,
+                "content": "Ví dụ: The train arrived on time. vs I got there in time to catch the train.",
+                "author": "lamdo",
+                "createdAt": "2025-08-06T08:35:00Z"
+            },
+            {
+                "id": 3,
+                "content": "\"In time\" có thể đi với \"for\" – in time for the meeting.",
+                "author": "huyhoang",
+                "createdAt": "2025-08-06T08:45:00Z"
+            },
+            {
+                "id": 4,
+                "content": "Không dùng thay thế được nhé.",
+                "author": "lananh",
+                "createdAt": "2025-08-06T09:00:00Z"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "title": "Cấu trúc \"used to\" dùng thế nào?",
+        "description": "Mình không chắc cách dùng khi nói về thói quen cũ.",
+        "author": "ngothanhl",
+        "answerCount": 3,
+        "answers": [
+            {
+                "id": 1,
+                "content": "Dùng để nói về thói quen trong quá khứ nhưng không còn nữa.",
+                "author": "minhkhoa",
+                "createdAt": "2025-08-06T09:30:00Z"
+            },
+            {
+                "id": 2,
+                "content": "Cấu trúc: used to + V (nguyên mẫu).",
+                "author": "quynhanh",
+                "createdAt": "2025-08-06T09:45:00Z"
+            },
+            {
+                "id": 3,
+                "content": "Ví dụ: I used to play football when I was a kid.",
+                "author": "user456",
+                "createdAt": "2025-08-06T10:00:00Z"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "title": "Khi nào dùng \"would rather\"?",
+        "description": "Có phải nó thay cho 'prefer' không? Có gì khác không?",
+        "author": "leminhk",
+        "answerCount": 2,
+        "answers": [
+            {
+                "id": 1,
+                "content": "\"Would rather\" dùng để thể hiện sự lựa chọn – I would rather stay home.",
+                "author": "khanhhoa",
+                "createdAt": "2025-08-06T08:50:00Z"
+            },
+            {
+                "id": 2,
+                "content": "Khác 'prefer' ở chỗ: prefer + V-ing, would rather + V (nguyên mẫu).",
+                "author": "manhhung",
+                "createdAt": "2025-08-06T09:05:00Z"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "title": "Tại sao \"news\" lại là danh từ số ít?",
+        "description": "Nhìn nó giống số nhiều mà lại dùng is chứ không phải are?",
+        "author": "dangthoa",
+        "answerCount": 1,
+        "answers": [
+            {
+                "id": 1,
+                "content": "\"News\" là danh từ không đếm được, luôn dùng với \"is\".",
+                "author": "vietthanh",
+                "createdAt": "2025-08-06T07:40:00Z"
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "title": "Có thể dùng \"although\" và \"but\" cùng câu không?",
+        "description": "Mình hay viết although ... but ... nhưng cô giáo bảo sai?",
+        "author": "tranquocb",
+        "answerCount": 2,
+        "answers": [
+            {
+                "id": 1,
+                "content": "Không dùng 'although' và 'but' trong cùng một câu. Chỉ cần 1 trong 2.",
+                "author": "thutrang",
+                "createdAt": "2025-08-06T10:10:00Z"
+            },
+            {
+                "id": 2,
+                "content": "Đúng: Although it was raining, I went out. Sai: Although it was raining, but I went out.",
+                "author": "danglong",
+                "createdAt": "2025-08-06T10:20:00Z"
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "title": "Khác nhau giữa \"say hello\" và \"tell hello\"?",
+        "description": "Có khi nào dùng \"tell hello\" được không nhỉ?",
+        "author": "buituan",
+        "answerCount": 3,
+        "answers": [
+            {
+                "id": 1,
+                "content": "Không có cụm 'tell hello' trong tiếng Anh.",
+                "author": "nhungnt",
+                "createdAt": "2025-08-06T09:00:00Z"
+            },
+            {
+                "id": 2,
+                "content": "'Say hello' là đúng – She said hello to me.",
+                "author": "phuongtran",
+                "createdAt": "2025-08-06T09:10:00Z"
+            },
+            {
+                "id": 3,
+                "content": "Bạn có thể dùng 'tell someone to say hello' nhưng không dùng 'tell hello'.",
+                "author": "truongan",
+                "createdAt": "2025-08-06T09:20:00Z"
+            }
+        ]
+    }
+]
