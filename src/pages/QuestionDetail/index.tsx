@@ -1,24 +1,25 @@
 import type { JSX } from 'react';
 import { useEffect, useState } from 'react';
-import { type Answer, type Question } from '../../types';
+import type { AnswerType, QuestionType } from '~/types';
 import { useParams } from 'react-router-dom';
-import questionData from '../../mocks/questions.json';
-import QuestionList from '../../components/QuestionList';
-import AnswerList from '../../components/AnswerList';
-import { useAuth } from '../../hooks/useAuth';
-import AnswerQuestionModal from '../../components/Modal/AnswerQuestionModal';
+import questionData from '~/mocks/questions.json';
+import QuestionList from '~/components/Layout/QuestionList/QuestionList';
+import AnswerList from '~/components/Layout/AnswerList';
+import { useAuth } from '~/hooks/useAuth';
+import AnswerQuestionModal from '~/components/Layout/Modal/AnswerQuestionModal';
 
 function QuestionDetail(): JSX.Element {
     const { isLogin } = useAuth();
+    const { user } = useAuth();
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [questions, setQuestions] = useState<Question[]>([]);
-    const [question, setQuestion] = useState<Question | null>(null);
+    const [questions, setQuestions] = useState<QuestionType[]>([]);
+    const [question, setQuestion] = useState<QuestionType | null>(null);
 
     const { id } = useParams();
 
     useEffect(() => {
         const found = questionData.find((q) => q.id === Number(id));
-        setQuestion((found as Question) || null);
+        setQuestion((found as unknown as QuestionType) || null);
     }, [id]);
 
     useEffect(() => {
@@ -31,8 +32,8 @@ function QuestionDetail(): JSX.Element {
             .then((data) => setQuestions(data));
     }, []);
 
-    const handleAddAnswer = (newA: Answer) => {
-        setQuestion((prev) => {
+    const handleAddAnswer = (newA: AnswerType) => {
+        setQuestion((prev: QuestionType | null) => {
             if (!prev) return prev;
 
             return {
@@ -52,7 +53,9 @@ function QuestionDetail(): JSX.Element {
             <div className="max-w-3xl mx-auto p-6">
                 <h2 className="text-2xl font-bold mb-4">{question.title}</h2>
                 <p className="text-gray-700 mb-4">{question.description}</p>
-                <div className="text-sm text-gray-500">Người hỏi: {question.author}</div>
+                <div className="text-sm text-gray-500">
+                    Người hỏi: {question.author && question.author?.name?.length > 1 ? question.author.name : 'Ẩn danh'}
+                </div>
                 <div className="text-sm text-gray-500 mb-6">{question.answerCount} lượt giải thích</div>
 
                 <div className="mt-8 border-t pt-4">
@@ -77,7 +80,7 @@ function QuestionDetail(): JSX.Element {
                         onClose={() => setShowModal(false)}
                     />
                     {question.answers && question.answers.length > 0 ? (
-                        <AnswerList answers={question.answers} />
+                        <AnswerList answers={question.answers} currentUserId={user?.id ?? null} />
                     ) : (
                         <p className="text-gray-500 italic">Chưa có câu trả lời nào.</p>
                     )}

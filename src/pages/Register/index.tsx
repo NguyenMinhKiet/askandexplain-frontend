@@ -112,7 +112,10 @@ function Register(): JSX.Element {
                     </div>
                     {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
                 </div>
-                <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded cursor-pointer">
+                <button
+                    type="submit"
+                    className="w-full bg-[var(--main-color)] hover:bg-[var(--main-color-hover)] text-white py-2 rounded cursor-pointer"
+                >
                     Đăng ký
                 </button>
             </form>

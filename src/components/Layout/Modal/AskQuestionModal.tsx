@@ -1,10 +1,10 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAuth } from '../../hooks/useAuth';
-import { type AskQuestionProps, type Question } from '../../types';
+import { useAuth } from '../../../hooks/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
+import type { ModalType, QuestionType } from '~/types';
 
 // 1. Define Schema
 const schema = z.object({
@@ -14,7 +14,7 @@ const schema = z.object({
 
 type AskQuestionForm = z.infer<typeof schema>;
 
-export default function AskQuestionModal({ isOpen, onClose, onSubmit }: AskQuestionProps) {
+export default function AskQuestionModal({ isOpen, onClose, onSubmit }: ModalType<QuestionType>) {
     const { user } = useAuth();
 
     const {
@@ -27,11 +27,11 @@ export default function AskQuestionModal({ isOpen, onClose, onSubmit }: AskQuest
     });
 
     const handleOnSubmit = (data: AskQuestionForm) => {
-        const newQuestion: Question = {
+        const newQuestion: QuestionType = {
             id: Date.now(),
             title: data.title,
             description: data.description,
-            author: user?.username || 'Ẩn danh',
+            author: user,
             answerCount: 0,
             answers: [],
         };

@@ -1,15 +1,25 @@
 [
     {
         "id": 1,
-        "title": "Phân biệt \"say\" và \"tell\" như thế nào?",
+        "title": "Phân biệt \"say\" và \"tell\" như thế nào? ",
         "description": "Mình học hoài không hiểu cách dùng say với tell trong câu. Giúp mình với!",
-        "author": "nguyenvana",
+        "author": {
+            "id": 1,
+            "username": "minhkiet",
+            "email": "Kiet@gmail.com",
+            "name": "Minh Kiet"
+        },
         "answerCount": 3,
         "answers": [
             {
                 "id": 1,
                 "content": "\"Say\" không cần tân ngữ, \"tell\" cần. Ví dụ: He said he was tired. He told me he was tired.",
-                "author": "teacherA",
+                "author": {
+                    "id": 1,
+                    "username": "minhkiet",
+                    "email": "Kiet@gmail.com",
+                    "name": "Minh Kiet"
+                },
                 "createdAt": "2025-08-06T09:00:00Z"
             },
             {
@@ -20,6 +30,90 @@
             },
             {
                 "id": 3,
+                "content": "Tell dùng khi có người nhận, say thì không nhất thiết.",
+                "author": "user123",
+                "createdAt": "2025-08-06T12:30:00Z"
+            },
+            {
+                "id": 4,
+                "content": "\"Say\" không cần tân ngữ, \"tell\" cần. Ví dụ: He said he was tired. He told me he was tired.",
+                "author": "teacherA",
+                "createdAt": "2025-08-06T09:00:00Z"
+            },
+            {
+                "id": 5,
+                "content": "Dễ nhớ: tell + someone + something, say + something.",
+                "author": "studentB",
+                "createdAt": "2025-08-06T10:15:00Z"
+            },
+            {
+                "id": 6,
+                "content": "Tell dùng khi có người nhận, say thì không nhất thiết.",
+                "author": "user123",
+                "createdAt": "2025-08-06T12:30:00Z"
+            },
+            {
+                "id": 7,
+                "content": "\"Say\" không cần tân ngữ, \"tell\" cần. Ví dụ: He said he was tired. He told me he was tired.",
+                "author": "teacherA",
+                "createdAt": "2025-08-06T09:00:00Z"
+            },
+            {
+                "id": 8,
+                "content": "Dễ nhớ: tell + someone + something, say + something.",
+                "author": "studentB",
+                "createdAt": "2025-08-06T10:15:00Z"
+            },
+            {
+                "id": 9,
+                "content": "Tell dùng khi có người nhận, say thì không nhất thiết.",
+                "author": "user123",
+                "createdAt": "2025-08-06T12:30:00Z"
+            },
+            {
+                "id": 10,
+                "content": "\"Say\" không cần tân ngữ, \"tell\" cần. Ví dụ: He said he was tired. He told me he was tired.",
+                "author": "teacherA",
+                "createdAt": "2025-08-06T09:00:00Z"
+            },
+            {
+                "id": 11,
+                "content": "Dễ nhớ: tell + someone + something, say + something.",
+                "author": "studentB",
+                "createdAt": "2025-08-06T10:15:00Z"
+            },
+            {
+                "id": 12,
+                "content": "Tell dùng khi có người nhận, say thì không nhất thiết.",
+                "author": "user123",
+                "createdAt": "2025-08-06T12:30:00Z"
+            },
+            {
+                "id": 13,
+                "content": "Tell dùng khi có người nhận, say thì không nhất thiết.",
+                "author": "user123",
+                "createdAt": "2025-08-06T12:30:00Z"
+            },
+            {
+                "id": 14,
+                "content": "Tell dùng khi có người nhận, say thì không nhất thiết.",
+                "author": "user123",
+                "createdAt": "2025-08-06T12:30:00Z"
+            },
+            {
+                "id": 15,
+                "content": "Tell dùng khi có người nhận, say thì không nhất thiết.",
+                "author": "user123",
+                "createdAt": "2025-08-06T12:30:00Z"
+            },
+            {
+                "id": 16,
+                "content": "Tell dùng khi có người nhận, say thì không nhất thiết.",
+                "author": "user123",
+                "createdAt": "2025-08-06T12:30:00Z"
+            },
+            {
+                "id": 17,
                 "content": "Tell dùng khi có người nhận, say thì không nhất thiết.",
                 "author": "user123",
                 "createdAt": "2025-08-06T12:30:00Z"

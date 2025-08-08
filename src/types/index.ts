@@ -1,32 +1,10 @@
-import { type ReactNode } from 'react';
-
-export type Answer = {
-    id: number;
-    questionId: number;
-    content: string;
-    author: string;
-    createdAt: string;
-};
-
-export type Question = {
-    id: number;
-    title: string;
-    description: string;
-    author: string;
-    answerCount: number;
-    answers: Answer[];
-};
-
-export interface ModalProps<T> {
-    isOpen: boolean;
-    onClose: () => void;
-    onSubmit: (data: T) => void;
-    title?: string;
-    children?: ReactNode;
-}
-
-export interface AskQuestionProps extends ModalProps<Question> {}
-
-export interface AnswerQuestionProps extends ModalProps<Answer> {
-    questionId: number;
-}
+export type { default as AnswerType } from './answer';
+export type { default as DecodedTokenType } from './decodedToken';
+export type { default as ModalType } from './modal';
+export type { default as QuestionType } from './question';
+export type { default as QuestionListType } from './questionList';
+export type { default as UserType } from './user';
+export type { default as AnswerQuestionType } from './answerQuestion';
+export type { default as AuthContextType } from './authContext';
+export type { default as QuestionCardType } from './questionCard';
+export type { default as AnswerListType } from './answerList';

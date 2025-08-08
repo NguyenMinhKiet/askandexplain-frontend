@@ -1,10 +1,10 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAuth } from '../../hooks/useAuth';
-import { type AnswerQuestionProps, type Answer } from '../../types';
+import { useAuth } from '~/hooks/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
+import type { AnswerQuestionType, AnswerType } from '~/types';
 
 // 1. Define Schema
 const schema = z.object({
@@ -13,7 +13,7 @@ const schema = z.object({
 
 type AnswerQuestionModal = z.infer<typeof schema>;
 
-export default function AnswerQuestionModal({ isOpen, onClose, onSubmit, questionId }: AnswerQuestionProps) {
+export default function AnswerQuestionModal({ isOpen, onClose, onSubmit, questionId }: AnswerQuestionType) {
     const { user } = useAuth();
 
     const {
@@ -26,14 +26,16 @@ export default function AnswerQuestionModal({ isOpen, onClose, onSubmit, questio
     });
 
     const handleOnSubmit = (data: AnswerQuestionModal) => {
-        const newAnswer: Answer = {
+        const newAnswer: AnswerType = {
             id: Date.now(),
             questionId: questionId,
             content: data.content,
-            author: user?.username || 'Ẩn danh',
+            author: user,
+            voteCount: 0,
             createdAt: new Date(Date.now()).toDateString(),
         };
 
+        // API Add Answer
         console.log('Gửi câu hỏi:', newAnswer);
         onSubmit(newAnswer);
         reset();

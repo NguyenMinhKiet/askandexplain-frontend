@@ -82,7 +82,10 @@ function Login(): JSX.Element {
                     </div>
                     {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
                 </div>
-                <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded cursor-pointer">
+                <button
+                    type="submit"
+                    className="w-full bg-[var(--main-color)] hover:bg-[var(--main-color-hover)] text-white py-2 rounded cursor-pointer"
+                >
                     Đăng nhập
                 </button>
             </form>

@@ -1,22 +1,6 @@
 import { createContext, useState, useEffect, type ReactNode } from 'react';
 import { jwtDecode } from 'jwt-decode';
-
-// Define interface token decode
-export interface DecodedToken {
-    id: string;
-    username: string;
-    email: string;
-    exp?: number;
-    iat?: number;
-}
-
-// Define Context state
-export interface AuthContextType {
-    isLogin: boolean;
-    user: DecodedToken | null;
-    login: (token: string) => void;
-    logout: () => void;
-}
+import type { DecodedTokenType, AuthContextType, UserType } from '../types';
 
 // Create context with default value
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -27,14 +11,14 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-    const [user, setUser] = useState<DecodedToken | null>(null);
+    const [user, setUser] = useState<UserType | null>(null);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
             try {
-                const decoded = jwtDecode<DecodedToken>(token);
-                setUser(decoded);
+                const decoded = jwtDecode<DecodedTokenType>(token);
+                setUser(decoded.user);
             } catch (err) {
                 console.error('Error: ', err);
                 console.error('Invalid token');
@@ -45,9 +29,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const login = (token: string) => {
         try {
-            const decoded = jwtDecode<DecodedToken>(token);
+            const decoded = jwtDecode<DecodedTokenType>(token);
             localStorage.setItem('token', token);
-            setUser(decoded);
+            setUser(decoded.user);
         } catch (err) {
             console.error('Error: ', err);
             console.error('Invalid login token');
