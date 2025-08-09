@@ -11,8 +11,11 @@ function Header() {
         <header className="bg-white border-b shadow-sm">
             <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-y-2">
                 {/* Logo */}
-                <Link to="/" className="text-xl font-bold text-[var(--main-color)]">
-                    🧠 Ask&Explain
+                <Link to="/" className="text-xl font-bold text-[var(--main-color)] flex items-center justify-center">
+                    <div className="    px-2">
+                        <img src="/idea.png" className="w-[35px] h-[35px]" />
+                    </div>
+                    Ask&Explain
                 </Link>
 
                 {/* SearchBox: ẩn trên mobile, hiện trên md+ */}

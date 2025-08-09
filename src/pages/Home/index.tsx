@@ -21,7 +21,12 @@ function Home(): JSX.Element {
 
     return (
         <div className="max-w-5xl mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6 text-center">🧠 Ask & Explain</h1>
+            <h1 className="text-3xl font-bold mb-6 text-center flex items-center justify-center">
+                <div className="    px-2">
+                    <img src="/idea.png" className="w-[35px] h-[35px]" />
+                </div>
+                Ask & Explain
+            </h1>
 
             <div className="mb-4 text-right">
                 {
