@@ -1,14 +1,14 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import Tippy from '@tippyjs/react/headless';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { Tooltip } from 'react-tooltip';
-import type { QuestionType } from '~/types';
+import { useQuestion } from '~/hooks/useQuestion';
 
 function SearchBox() {
+    const { questions } = useQuestion();
     const [keyword, setKeyword] = useState<string>('');
-    const [questions, setQuestions] = useState<QuestionType[]>([]);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -16,15 +16,9 @@ function SearchBox() {
         .filter(
             (q) =>
                 q.title.toLowerCase().includes(keyword.toLowerCase()) ||
-                q.description.toLowerCase().includes(keyword.toLowerCase()),
+                q.content.toLowerCase().includes(keyword.toLowerCase()),
         )
-        .slice(0, 5);
-
-    useEffect(() => {
-        fetch('/src/mocks/questions.json')
-            .then((res) => res.json())
-            .then((data) => setQuestions(data));
-    }, []);
+        .slice(0, 10);
 
     const handleOnClick = () => {
         setKeyword('');
@@ -50,15 +44,15 @@ function SearchBox() {
                         {filtered.length > 0 ? (
                             filtered.map((q) => (
                                 <Link
-                                    key={q.id}
+                                    key={q._id}
                                     onClick={handleOnClick}
-                                    to={`/questions/${q.id}`}
-                                    data-tooltip-id={`tooltip-${q.id}`}
+                                    to={`/questions/${q._id}`}
+                                    data-tooltip-id={`tooltip-${q._id}`}
                                     data-tooltip-content="Bấm để xem chi tiết"
                                     className="w-full py-1 px-2 border hover:bg-gray-300 bg-white rounded group cursor-pointer"
                                 >
                                     <p className="text-wrap line-clamp-3">{q.title}</p>
-                                    <Tooltip id={`tooltip-${q.id}`} place="right" />
+                                    <Tooltip id={`tooltip-${q._id}`} place="right" />
                                 </Link>
                             ))
                         ) : (

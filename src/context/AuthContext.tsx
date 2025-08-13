@@ -11,14 +11,15 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-    const [user, setUser] = useState<UserType | null>(null);
+    const defaultUser = { _id: '', name: 'Ẩn danh', email: '' };
+    const [user, setUser] = useState<UserType>(defaultUser);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
             try {
                 const decoded = jwtDecode<DecodedTokenType>(token);
-                setUser(decoded.user);
+                setUser({ _id: decoded.userId, email: decoded.email, name: decoded.name });
             } catch (err) {
                 console.error('Error: ', err);
                 console.error('Invalid token');
@@ -31,7 +32,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         try {
             const decoded = jwtDecode<DecodedTokenType>(token);
             localStorage.setItem('token', token);
-            setUser(decoded.user);
+            setUser({ _id: decoded.userId, email: decoded.email, name: decoded.name });
         } catch (err) {
             console.error('Error: ', err);
             console.error('Invalid login token');
@@ -39,7 +40,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
 
     const logout = () => {
-        setUser(null);
+        setUser(defaultUser);
         localStorage.removeItem('token');
     };
 

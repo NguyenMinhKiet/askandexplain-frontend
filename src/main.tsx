@@ -5,14 +5,17 @@ import './index.css';
 import App from './App.tsx';
 import { AuthProvider } from './context/AuthContext.tsx';
 import GlobalStyle from './components/GlobalStyle/index.tsx';
+import { QuestionsProvider } from './context/QuestionsProvider.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <GlobalStyle>
             <AuthProvider>
-                <BrowserRouter>
-                    <App />
-                </BrowserRouter>
+                <QuestionsProvider>
+                    <BrowserRouter>
+                        <App />
+                    </BrowserRouter>
+                </QuestionsProvider>
             </AuthProvider>
         </GlobalStyle>
     </StrictMode>,

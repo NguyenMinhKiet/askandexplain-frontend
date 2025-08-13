@@ -1,10 +1,23 @@
 import type { UserType } from '~/types';
 
-export default interface Answer {
-    id: number;
-    questionId: number;
+export interface Answer {
+    _id: string;
+    questionId: string;
     content: string;
-    author: UserType | null;
+    author: UserType;
     createdAt: string;
     voteCount: number;
+}
+
+export interface AnswerCreate {
+    questionId: string;
+    content: string;
+    author: string;
+    createdAt: string;
+    voteCount: number;
+}
+
+export interface AnswerList {
+    answers: Answer[];
+    currentUserId: string;
 }

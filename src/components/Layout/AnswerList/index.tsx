@@ -4,7 +4,7 @@ import { type AnswerType, type AnswerListType } from '~/types';
 
 function AnswerList({ answers, currentUserId }: AnswerListType) {
     const [currentItems, setCurrentItems] = useState<AnswerType[]>(answers);
-    const [editingId, setEditingId] = useState<number | null>(null);
+    const [editingId, setEditingId] = useState<string | null>(null);
     const [editContent, setEditContent] = useState<string>('');
 
     const handlePageChange = useCallback((items: AnswerType[]) => {
@@ -12,28 +12,28 @@ function AnswerList({ answers, currentUserId }: AnswerListType) {
     }, []);
 
     const handleEdit = (answer: AnswerType) => {
-        setEditingId(answer.id);
+        setEditingId(answer._id);
         setEditContent(answer.content);
     };
 
-    const handleSave = (id: number) => {
+    const handleSave = (id: string) => {
         // API update ...
-        setCurrentItems((items) => items.map((item) => (item.id === id ? { ...item, content: editContent } : item)));
+        setCurrentItems((items) => items.map((item) => (item._id === id ? { ...item, content: editContent } : item)));
         setEditingId(null);
         setEditContent('');
     };
 
-    const handleDelete = (id: number) => {
+    const handleDelete = (id: string) => {
         if (window.confirm('Bạn có chắc muốn xóa câu trả lời này?')) {
             // API Delete
-            setCurrentItems((items) => items.filter((item) => item.id !== id));
+            setCurrentItems((items) => items.filter((item) => item._id !== id));
         }
     };
 
-    const handleVote = (id: number, value: number) => {
+    const handleVote = (id: string, value: number) => {
         setCurrentItems((items) =>
             items.map((item) =>
-                item.id === id ? { ...item, voteCount: Math.max((item.voteCount ?? 0) + value, 0) } : item,
+                item._id === id ? { ...item, voteCount: Math.max((item.voteCount ?? 0) + value, 0) } : item,
             ),
         );
         // API update vote
@@ -48,7 +48,7 @@ function AnswerList({ answers, currentUserId }: AnswerListType) {
                     .sort((a, b) => (b.voteCount ?? 0) - (a.voteCount ?? 0))
                     .map((answer, index) => (
                         <div
-                            key={answer.id}
+                            key={answer._id}
                             className={`border rounded p-4 mb-4  shadow-sm relative ${
                                 index === 0 && answer.voteCount > 0
                                     ? 'bg-green-50 border-green-500 outline-green-400 outline-2'
@@ -60,7 +60,7 @@ function AnswerList({ answers, currentUserId }: AnswerListType) {
                                     🏆 Câu trả lời tốt nhất
                                 </div>
                             )}
-                            {editingId === answer.id ? (
+                            {editingId === answer._id ? (
                                 <div>
                                     <textarea
                                         className={'w-full border rounded p-2 mb-2'}
@@ -69,7 +69,7 @@ function AnswerList({ answers, currentUserId }: AnswerListType) {
                                     />
                                     <button
                                         className="bg-blue-500 text-white px-3 py-1 rounded mr-2 cursor-pointer "
-                                        onClick={() => handleSave(answer.id)}
+                                        onClick={() => handleSave(answer._id)}
                                     >
                                         Lưu
                                     </button>
@@ -95,20 +95,20 @@ function AnswerList({ answers, currentUserId }: AnswerListType) {
                                         <div className="flex gap-2 ">
                                             <button
                                                 className="cursor-pointer text-green-600 font-bold text-xl"
-                                                onClick={() => handleVote(answer.id, 1)}
+                                                onClick={() => handleVote(answer._id, 1)}
                                             >
                                                 👍
                                             </button>
                                             <span className="text-lg">{answer.voteCount ?? 0}</span>
                                             <button
                                                 className="cursor-pointer text-red-600 font-bold text-xl"
-                                                onClick={() => handleVote(answer.id, -1)}
+                                                onClick={() => handleVote(answer._id, -1)}
                                             >
                                                 👎
                                             </button>
                                         </div>
 
-                                        {answer.author && answer.author.id === currentUserId && (
+                                        {answer.author && answer.author._id === currentUserId && (
                                             <div className="flex gap-2 ">
                                                 <button
                                                     className="text-blue-500 cursor-pointer "
@@ -118,7 +118,7 @@ function AnswerList({ answers, currentUserId }: AnswerListType) {
                                                 </button>
                                                 <button
                                                     className="text-red-500 cursor-pointer "
-                                                    onClick={() => handleDelete(answer.id)}
+                                                    onClick={() => handleDelete(answer._id)}
                                                 >
                                                     Xóa
                                                 </button>

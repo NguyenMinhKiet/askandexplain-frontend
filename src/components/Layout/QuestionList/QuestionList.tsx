@@ -79,7 +79,7 @@ function QuestionList({ questions, direction = 'vertical' }: QuestionListType) {
                     }
                 >
                     {currentItems.map((q) => (
-                        <QuestionCard key={q.id} question={q} direction={direction} />
+                        <QuestionCard key={q._id} question={q} direction={direction} />
                     ))}
                 </div>
             </div>

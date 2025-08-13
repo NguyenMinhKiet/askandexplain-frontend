@@ -1,22 +1,36 @@
 import type { JSX } from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import AskQuestionModal from '~/components/Layout/Modal/AskQuestionModal';
 import QuestionList from '~/components/Layout/QuestionList/QuestionList';
-import type { QuestionType } from '~/types';
+import { useQuestion } from '~/hooks/useQuestion';
+import type { QuestionCreateType } from '~/types';
 
 function Home(): JSX.Element {
     const [showModal, setShowModal] = useState(false);
-    const [questions, setQuestions] = useState<QuestionType[]>([]);
+    const { questions, setQuestions } = useQuestion();
 
-    useEffect(() => {
-        fetch('/src/mocks/questions.json')
-            .then((res) => res.json())
-            .then((data) => setQuestions(data));
-    }, []);
-
-    const handleAddQuestion = (newQ: QuestionType) => {
-        setQuestions((prev) => [newQ, ...prev]);
+    const handleAddQuestion = (newQ: QuestionCreateType) => {
+        fetch('http://localhost:3000/api/questions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify(newQ),
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('Failed to add question');
+                }
+                return res.json();
+            })
+            .then((res) => {
+                setQuestions((prev) => [...prev, res.data]);
+            })
+            .catch((err) => {
+                console.error('Error adding question:', err);
+            });
     };
 
     return (
@@ -32,7 +46,7 @@ function Home(): JSX.Element {
                 {
                     <button
                         onClick={() => setShowModal(true)}
-                        className="bg-[var(--main-color)] hover:bg-[var(--main-color-hover)] text-white py-2 px-4 rounded"
+                        className="cursor-pointer bg-[var(--main-color)] hover:bg-[var(--main-color-hover)] text-white py-2 px-4 rounded"
                     >
                         + Đặt câu hỏi mới
                     </button>

@@ -1,47 +1,77 @@
 import type { JSX } from 'react';
 import { useEffect, useState } from 'react';
-import type { AnswerType, QuestionType } from '~/types';
+import type { AnswerCreateType, QuestionType } from '~/types';
 import { useParams } from 'react-router-dom';
-import questionData from '~/mocks/questions.json';
 import QuestionList from '~/components/Layout/QuestionList/QuestionList';
 import AnswerList from '~/components/Layout/AnswerList';
 import { useAuth } from '~/hooks/useAuth';
 import AnswerQuestionModal from '~/components/Layout/Modal/AnswerQuestionModal';
+import { useQuestion } from '~/hooks/useQuestion';
 
 function QuestionDetail(): JSX.Element {
+    const { questions, setQuestions } = useQuestion();
+
     const { isLogin } = useAuth();
     const { user } = useAuth();
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [questions, setQuestions] = useState<QuestionType[]>([]);
     const [question, setQuestion] = useState<QuestionType | null>(null);
 
     const { id } = useParams();
-
     useEffect(() => {
-        const found = questionData.find((q) => q.id === Number(id));
+        console.log('question: ', question);
+    }, [question]);
+    // Find question with id
+    useEffect(() => {
+        const found = questions.find((q) => q._id === id);
         setQuestion((found as unknown as QuestionType) || null);
-    }, [id]);
+    }, [questions, id]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [id]);
 
-    useEffect(() => {
-        fetch('/src/mocks/questions.json')
-            .then((res) => res.json())
-            .then((data) => setQuestions(data));
-    }, []);
+    const handleAddAnswer = (newA: AnswerCreateType) => {
+        fetch(`http://localhost:3000/api/answers/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify(newA),
+        })
+            .then(async (res) => {
+                const data = await res.json(); // đọc body JSON
+                if (!res.ok) {
+                    // ném lỗi với message từ backend
+                    throw new Error(data?.error || 'Failed to add answer');
+                }
+                return data;
+            })
+            .then((res) => {
+                setQuestions((prev) =>
+                    prev.map((q) =>
+                        q._id === id
+                            ? {
+                                  ...q,
+                                  answers: [res.data, ...q.answers],
+                                  answerCount: q.answerCount + 1,
+                              }
+                            : q,
+                    ),
+                );
+                setQuestion((prev) => {
+                    if (!prev) return prev;
 
-    const handleAddAnswer = (newA: AnswerType) => {
-        setQuestion((prev: QuestionType | null) => {
-            if (!prev) return prev;
-
-            return {
-                ...prev,
-                answers: [newA, ...prev.answers],
-                answerCount: prev.answerCount + 1,
-            };
-        });
+                    return {
+                        ...prev,
+                        answers: [res.data, ...prev.answers],
+                        answerCount: prev.answerCount + 1,
+                    };
+                });
+            })
+            .catch((err) => {
+                console.error('Error adding answer:', err.message); // in ra message từ backend
+            });
     };
 
     if (!question) return <div className="p-6">❌ Câu hỏi không tồn tại.</div>;
@@ -52,9 +82,9 @@ function QuestionDetail(): JSX.Element {
 
             <div className="max-w-3xl mx-auto p-6">
                 <h2 className="text-2xl font-bold mb-4">{question.title}</h2>
-                <p className="text-gray-700 mb-4">{question.description}</p>
+                <p className="text-gray-700 mb-4">{question.content}</p>
                 <div className="text-sm text-gray-500">
-                    Người hỏi: {question.author && question.author?.name?.length > 1 ? question.author.name : 'Ẩn danh'}
+                    Người hỏi: {question.author && question.author.name.length > 1 ? question.author.name : 'Ẩn danh'}
                 </div>
                 <div className="text-sm text-gray-500 mb-6">{question.answerCount} lượt giải thích</div>
 
@@ -74,20 +104,20 @@ function QuestionDetail(): JSX.Element {
                         )}
                     </div>
                     <AnswerQuestionModal
-                        questionId={Number(id)}
+                        questionId={id!}
                         isOpen={showModal}
                         onSubmit={handleAddAnswer}
                         onClose={() => setShowModal(false)}
                     />
                     {question.answers && question.answers.length > 0 ? (
-                        <AnswerList answers={question.answers} currentUserId={user?.id ?? null} />
+                        <AnswerList answers={question.answers} currentUserId={user._id} />
                     ) : (
                         <p className="text-gray-500 italic">Chưa có câu trả lời nào.</p>
                     )}
                 </div>
             </div>
             <div className="mt-8 border-t pt-4">
-                <QuestionList questions={questions.filter((item) => item.id !== Number(id))} direction="horizontal" />
+                <QuestionList questions={questions.filter((item) => item._id !== id)} direction="horizontal" />
             </div>
         </div>
     );

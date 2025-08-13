@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '~/hooks/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
-import type { AnswerQuestionType, AnswerType } from '~/types';
+import type { AnswerCreateType, AnswerModalType } from '~/types';
 
 // 1. Define Schema
 const schema = z.object({
@@ -13,7 +13,7 @@ const schema = z.object({
 
 type AnswerQuestionModal = z.infer<typeof schema>;
 
-export default function AnswerQuestionModal({ isOpen, onClose, onSubmit, questionId }: AnswerQuestionType) {
+export default function AnswerQuestionModal({ isOpen, onClose, onSubmit, questionId }: AnswerModalType) {
     const { user } = useAuth();
 
     const {
@@ -26,11 +26,10 @@ export default function AnswerQuestionModal({ isOpen, onClose, onSubmit, questio
     });
 
     const handleOnSubmit = (data: AnswerQuestionModal) => {
-        const newAnswer: AnswerType = {
-            id: Date.now(),
+        const newAnswer: AnswerCreateType = {
             questionId: questionId,
             content: data.content,
-            author: user,
+            author: user?._id || 'Ẩn danh',
             voteCount: 0,
             createdAt: new Date(Date.now()).toDateString(),
         };

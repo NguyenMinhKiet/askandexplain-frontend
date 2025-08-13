@@ -4,17 +4,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '../../../hooks/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
-import type { ModalType, QuestionType } from '~/types';
+import type { QuestionCreateType, QuestionModalType } from '~/types';
 
 // 1. Define Schema
 const schema = z.object({
     title: z.string().min(5, 'Tiêu đề phải dài ít nhất 5 ký tự'),
-    description: z.string().min(10, 'Mô tả phải dài ít nhất 10 ký tự'),
+    content: z.string().min(10, 'Mô tả phải dài ít nhất 10 ký tự'),
 });
 
 type AskQuestionForm = z.infer<typeof schema>;
 
-export default function AskQuestionModal({ isOpen, onClose, onSubmit }: ModalType<QuestionType>) {
+export default function AskQuestionModal({ isOpen, onClose, onSubmit }: QuestionModalType) {
     const { user } = useAuth();
 
     const {
@@ -27,10 +27,9 @@ export default function AskQuestionModal({ isOpen, onClose, onSubmit }: ModalTyp
     });
 
     const handleOnSubmit = (data: AskQuestionForm) => {
-        const newQuestion: QuestionType = {
-            id: Date.now(),
+        const newQuestion: QuestionCreateType = {
             title: data.title,
-            description: data.description,
+            content: data.content,
             author: user,
             answerCount: 0,
             answers: [],
@@ -69,12 +68,10 @@ export default function AskQuestionModal({ isOpen, onClose, onSubmit }: ModalTyp
                         <label className="block font-medium mb-1">Chi tiết câu hỏi</label>
                         <textarea
                             rows={4}
-                            {...register('description')}
+                            {...register('content')}
                             className="w-full border rounded px-3 py-2 focus:outline-none focus:ring"
                         />
-                        {errors.description && (
-                            <p className="text-red-600 text-sm mt-1">{errors.description.message}</p>
-                        )}
+                        {errors.content && <p className="text-red-600 text-sm mt-1">{errors.content.message}</p>}
                     </div>
                     <div className="flex justify-end gap-2">
                         <button

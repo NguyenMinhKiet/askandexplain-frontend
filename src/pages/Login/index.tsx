@@ -40,18 +40,34 @@ function Login(): JSX.Element {
 
     const onSubmit = async (data: LoginForm) => {
         console.log('Login data: ', data);
-        try {
-            // checkData func ...
-            const token = data.email;
-            login(token);
-            navigate('/');
-        } catch (err: unknown) {
-            if (err instanceof Error) {
-                setError(err.message);
-            } else {
-                setError('Lỗi không xác định');
-            }
-        }
+
+        fetch('http://localhost:3000/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: data.email,
+                password: data.password,
+            }),
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    return res.json().then((errData) => {
+                        throw new Error(errData.message || 'Login failed');
+                    });
+                }
+                return res.json();
+            })
+            .then((result) => {
+                if (result.token) {
+                    login(result.token);
+                    console.log('Login: ', result.message);
+                } else {
+                    setError('No token returned from API');
+                }
+            })
+            .catch((err) => {
+                setError(err.message || 'Login error');
+            });
     };
 
     return (

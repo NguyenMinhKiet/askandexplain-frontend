@@ -4,7 +4,7 @@ import SearchBox from '../SearchBox';
 import { useState } from 'react';
 
 function Header() {
-    const { isLogin, logout } = useAuth();
+    const { isLogin, logout, user } = useAuth();
     const [menuOpen, setMenuOpen] = useState(false);
 
     return (
@@ -28,24 +28,32 @@ function Header() {
                 {/* Desktop buttons */}
                 <div className="hidden md:flex space-x-4 items-center">
                     {isLogin ? (
-                        <button
-                            type="button"
-                            className="px-4 py-1.5 bg-[var(--main-color)] text-white rounded hover:bg-[var(--main-color-hover)] transition"
-                            onClick={logout}
-                        >
-                            Logout
-                        </button>
+                        <>
+                            <span className="text-gray-700 font-medium">
+                                Xin chào,{' '}
+                                <span className="text-[var(--main-color)]">
+                                    {user?.name ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : 'Người dùng'}
+                                </span>
+                            </span>
+                            <button
+                                type="button"
+                                className="cursor-pointer px-4 py-1.5 bg-[var(--main-color)] text-white rounded hover:bg-[var(--main-color-hover)] transition"
+                                onClick={logout}
+                            >
+                                Đăng xuất
+                            </button>
+                        </>
                     ) : (
                         <>
                             <Link
                                 to="/register"
-                                className="px-4 py-1.5 border border-main text-[var(--main-color)] rounded hover:text-white hover:bg-[var(--main-color-hover)] transition"
+                                className="cursor-pointer px-4 py-1.5 border border-main text-[var(--main-color)] rounded hover:text-white hover:bg-[var(--main-color-hover)] transition"
                             >
                                 Đăng ký
                             </Link>
                             <Link
                                 to="/login"
-                                className="px-4 py-1.5 bg-[var(--main-color)] text-white rounded hover:bg-[var(--main-color-hover)] transition"
+                                className="cursor-pointer px-4 py-1.5 bg-[var(--main-color)] text-white rounded hover:bg-[var(--main-color-hover)] transition"
                             >
                                 Đăng nhập
                             </Link>
@@ -63,28 +71,41 @@ function Header() {
                     </button>
 
                     {menuOpen && (
-                        <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow z-50">
+                        <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow z-50">
                             <div className="flex flex-col items-start p-2 space-y-1">
                                 {isLogin ? (
-                                    <button
-                                        type="button"
-                                        className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 border-blue-500 text-blue-500"
-                                        onClick={logout}
-                                    >
-                                        Logout
-                                    </button>
+                                    <>
+                                        <div className="px-3 py-2 text-sm text-gray-700 border-b w-full">
+                                            Xin chào,{' '}
+                                            <span className="font-semibold text-[var(--main-color)]">
+                                                {user?.name
+                                                    ? user.name.charAt(0).toUpperCase() + user.name.slice(1)
+                                                    : 'Người dùng'}
+                                            </span>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 text-red-500"
+                                            onClick={() => {
+                                                logout();
+                                                setMenuOpen(false);
+                                            }}
+                                        >
+                                            Đăng xuất
+                                        </button>
+                                    </>
                                 ) : (
                                     <>
                                         <Link
                                             to="/register"
-                                            className="w-full px-3 py-2 text-sm hover:bg-gray-100  rounded border"
+                                            className="w-full px-3 py-2 text-sm hover:bg-gray-100 rounded border"
                                             onClick={() => setMenuOpen(false)}
                                         >
                                             Đăng ký
                                         </Link>
                                         <Link
                                             to="/login"
-                                            className="w-full px-3 py-2 text-sm hover:bg-gray-100  rounded border"
+                                            className="w-full px-3 py-2 text-sm hover:bg-gray-100 rounded border"
                                             onClick={() => setMenuOpen(false)}
                                         >
                                             Đăng nhập

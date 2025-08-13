@@ -1,8 +1,7 @@
-import type { UserType } from '~/types';
-
 export default interface DecodedToken {
-    id: number;
-    user: UserType;
+    userId: string;
+    email: string;
+    name: string;
     exp?: number;
     iat?: number;
 }
