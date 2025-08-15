@@ -13,9 +13,14 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const defaultUser = { _id: '', name: 'Ẩn danh', email: '' };
     const [user, setUser] = useState<UserType>(defaultUser);
+    const [isLogin, setIsLogin] = useState(false);
+    const [token, setToken] = useState<string>('');
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        setToken(localStorage.getItem('token') || '');
+    }, []);
+
+    useEffect(() => {
         if (token) {
             try {
                 const decoded = jwtDecode<DecodedTokenType>(token);
@@ -23,16 +28,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             } catch (err) {
                 console.error('Error: ', err);
                 console.error('Invalid token');
-                logout();
             }
         }
-    }, []);
+    }, [token]);
 
     const login = (token: string) => {
         try {
             const decoded = jwtDecode<DecodedTokenType>(token);
             localStorage.setItem('token', token);
             setUser({ _id: decoded.userId, email: decoded.email, name: decoded.name });
+            setIsLogin(true);
         } catch (err) {
             console.error('Error: ', err);
             console.error('Invalid login token');
@@ -42,9 +47,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const logout = () => {
         setUser(defaultUser);
         localStorage.removeItem('token');
+        setIsLogin(false);
     };
-
-    const isLogin = !!user;
 
     return <AuthContext.Provider value={{ isLogin, user, login, logout }}>{children}</AuthContext.Provider>;
 };

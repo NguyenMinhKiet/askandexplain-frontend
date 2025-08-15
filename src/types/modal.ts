@@ -1,6 +1,5 @@
 import { type ReactNode } from 'react';
-import type { AnswerType, QuestionCreateType, QuestionType } from '.';
-import type { AnswerCreate } from './answer';
+import type { AnswerCreateType, QuestionCreateType } from '.';
 
 export interface Modal<T> {
     isOpen: boolean;
@@ -10,11 +9,11 @@ export interface Modal<T> {
     children?: ReactNode;
 }
 
-export interface AnswerModal extends Modal<AnswerType> {
+export interface AnswerModalType extends Modal<AnswerCreateType> {
     questionId: string;
-    onSubmit: (data: AnswerCreate) => void;
+    onSubmit: (data: AnswerCreateType) => void;
 }
 
-export interface QuestionModal extends Modal<QuestionType> {
+export interface QuestionModalType extends Modal<QuestionCreateType> {
     onSubmit: (data: QuestionCreateType) => void;
 }

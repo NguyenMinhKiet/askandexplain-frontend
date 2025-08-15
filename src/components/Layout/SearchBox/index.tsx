@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import Tippy from '@tippyjs/react/headless';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,13 +12,19 @@ function SearchBox() {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const filtered = questions
-        .filter(
-            (q) =>
-                q.title.toLowerCase().includes(keyword.toLowerCase()) ||
-                q.content.toLowerCase().includes(keyword.toLowerCase()),
-        )
-        .slice(0, 10);
+    const filtered = useMemo(() => {
+        if (!keyword || !questions?.length) return [];
+
+        const lowerKeyword = keyword.trim().toLowerCase();
+
+        return questions
+            .filter((q) => {
+                const title = q?.title ?? '';
+                const content = q?.content ?? '';
+                return title.toLowerCase().includes(lowerKeyword) || content.toLowerCase().includes(lowerKeyword);
+            })
+            .slice(0, 10); // chỉ lấy tối đa 10 kết quả
+    }, [questions, keyword]);
 
     const handleOnClick = () => {
         setKeyword('');
@@ -68,7 +74,7 @@ function SearchBox() {
                         className="flex-1 border border-r-0 h-full rounded-tl-md rounded-bl-md px-3 py-3 outline-0 group-hover:border-[var(--main-color-hover)]"
                         placeholder="Tìm kiếm câu hỏi..."
                         value={keyword}
-                        onChange={(e) => setKeyword(e.target.value)}
+                        onChange={(e) => setKeyword(e.target.value.trim())}
                     />
                     <button
                         type="button"

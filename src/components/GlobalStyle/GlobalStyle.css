@@ -2,3 +2,9 @@
     --main-color: #16b53b;
     --main-color-hover: #14a135;
 }
+
+button[disabled] {
+    background-color: lightgray;
+    color: black;
+    cursor: not-allowed;
+}

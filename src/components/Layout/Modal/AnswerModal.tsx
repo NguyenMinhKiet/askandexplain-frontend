@@ -11,7 +11,7 @@ const schema = z.object({
     content: z.string().min(5, 'Câu trả lời phải dài ít nhất 5 ký tự'),
 });
 
-type AnswerQuestionModal = z.infer<typeof schema>;
+export type AnswerQuestionModal = z.infer<typeof schema>;
 
 export default function AnswerQuestionModal({ isOpen, onClose, onSubmit, questionId }: AnswerModalType) {
     const { user } = useAuth();
@@ -19,23 +19,21 @@ export default function AnswerQuestionModal({ isOpen, onClose, onSubmit, questio
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isValid },
         reset,
     } = useForm<AnswerQuestionModal>({
         resolver: zodResolver(schema),
+        mode: 'onChange',
     });
 
     const handleOnSubmit = (data: AnswerQuestionModal) => {
         const newAnswer: AnswerCreateType = {
             questionId: questionId,
             content: data.content,
-            author: user?._id || 'Ẩn danh',
+            author: user._id,
             voteCount: 0,
-            createdAt: new Date(Date.now()).toDateString(),
         };
 
-        // API Add Answer
-        console.log('Gửi câu hỏi:', newAnswer);
         onSubmit(newAnswer);
         reset();
         onClose();
@@ -53,7 +51,7 @@ export default function AnswerQuestionModal({ isOpen, onClose, onSubmit, questio
                 >
                     <FontAwesomeIcon icon={faClose} />
                 </button>
-                <h2 className="text-xl font-semibold mb-4">Đặt câu hỏi mới</h2>
+                <h2 className="text-xl font-semibold mb-4">Đặt câu trả lời mới</h2>
                 <form onSubmit={handleSubmit(handleOnSubmit)} className="space-y-4">
                     <div>
                         <label className="block font-medium mb-1">Câu trả lời</label>
@@ -72,11 +70,15 @@ export default function AnswerQuestionModal({ isOpen, onClose, onSubmit, questio
                                 reset();
                                 onClose();
                             }}
-                            className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                            className="cursor-pointer px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
                         >
                             Hủy
                         </button>
-                        <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                        <button
+                            type="submit"
+                            disabled={!isValid}
+                            className="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        >
                             Gửi
                         </button>
                     </div>

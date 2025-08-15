@@ -1,4 +1,4 @@
-export default interface DecodedToken {
+export default interface DecodedTokenType {
     userId: string;
     email: string;
     name: string;

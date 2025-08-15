@@ -8,8 +8,8 @@ function QuestionCard({ question, direction = 'vertical' }: QuestionCardType) {
             to={`/questions/${question._id}`}
             className={
                 direction === 'horizontal'
-                    ? 'w-full inline-block md-w-64 min-w-[16rem] h-40 bg-white border rounded-lg p-4 shadow-md mr-4 hover:shadow-lg transition relative'
-                    : 'w-full h-40 bg-white border rounded-lg p-4 shadow-md hover:shadow-lg transition flex flex-col'
+                    ? 'cursor-pointer w-full inline-block md-w-64 min-w-[16rem] h-40 bg-white border rounded-lg p-4 shadow-md mr-4 hover:shadow-lg transition relative'
+                    : 'cursor-pointer w-full h-40 bg-white border rounded-lg p-4 shadow-md hover:shadow-lg transition flex flex-col'
             }
         >
             <h2 className="text-lg font-semibold text-gray-800 line-clamp-2 text-wrap">{question.title}</h2>

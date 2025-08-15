@@ -1,38 +1,46 @@
-import { useState, useEffect, type ReactNode } from 'react';
+import { useState, useEffect, type ReactNode, useCallback } from 'react';
 import QuestionsContext from './QuestionsContext';
 import type { QuestionType } from '~/types';
+import { DOMAIN_BACKEND } from '~/config';
 
 export function QuestionsProvider({ children }: { children: ReactNode }) {
     const [questions, setQuestions] = useState<QuestionType[]>([]);
+    const [refreshTrigger, setRefreshTrigger] = useState(0); // trigger để fetch lại
 
-    useEffect(() => {
-        const token = localStorage.getItem('access_token');
-
-        fetch('http://localhost:3000/api/questions', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                ...(token ? { Authorization: `Bearer ${token}` } : {}),
-            },
-            credentials: 'include',
-        })
-            .then(async (res) => {
-                const json = await res.json();
-
-                if (!res.ok) {
-                    console.error(`API error: ${res.status} ${res.statusText}`);
-                    console.error('API response body:', json);
-                    throw new Error(json.message || 'Unknown error');
-                }
-                console.log(`API: ${json.message || 'No message field'}`);
-                console.log(`API: `, json.data);
-
-                setQuestions(json.data);
-            })
-            .catch((error) => {
-                console.error('Fetch failed:', error);
+    // Hàm fetch dữ liệu
+    const fetchQuestions = useCallback(async () => {
+        try {
+            const token = localStorage.getItem('access_token');
+            const res = await fetch(`${DOMAIN_BACKEND}/api/questions`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
             });
+
+            const json = await res.json();
+
+            if (!res.ok) {
+                console.error(`API error: ${res.status} ${res.statusText}`);
+                console.error('API response body:', json);
+                throw new Error(json.message || 'Unknown error');
+            }
+            setQuestions(json.data);
+        } catch (error) {
+            console.error('Fetch failed:', error);
+        }
     }, []);
 
-    return <QuestionsContext.Provider value={{ questions, setQuestions }}>{children}</QuestionsContext.Provider>;
+    useEffect(() => {
+        fetchQuestions();
+    }, [fetchQuestions, refreshTrigger]);
+
+    const refreshQuestions = () => setRefreshTrigger((prev) => prev + 1);
+
+    return (
+        <QuestionsContext.Provider value={{ questions, setQuestions, refreshQuestions }}>
+            {children}
+        </QuestionsContext.Provider>
+    );
 }

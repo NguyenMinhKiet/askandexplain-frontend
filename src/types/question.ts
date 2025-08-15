@@ -1,6 +1,6 @@
 import type { UserType, AnswerType } from '~/types';
 
-export interface Question {
+export interface QuestionType {
     _id: string;
     title: string;
     content: string;
@@ -9,24 +9,25 @@ export interface Question {
     answers: AnswerType[];
 }
 
-export interface QuestionCreate {
+export interface QuestionCreateType {
     title: string;
     content: string;
-    author: UserType | null;
+    author: string;
     answerCount: number;
     answers: AnswerType[];
 }
 
-export interface QuestionCard {
-    question: Question;
+export interface QuestionCardType {
+    question: QuestionType;
     direction: 'vertical' | 'horizontal';
 }
 
-export interface QuestionList {
-    questions: Question[];
+export interface QuestionListType {
+    questions: QuestionType[];
     direction: 'horizontal' | 'vertical';
 }
-export interface QuestionsContext {
-    questions: Question[];
-    setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
+export interface QuestionsContextType {
+    questions: QuestionType[];
+    setQuestions: React.Dispatch<React.SetStateAction<QuestionType[]>>;
+    refreshQuestions: () => void;
 }

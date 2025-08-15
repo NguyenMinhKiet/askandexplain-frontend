@@ -6,11 +6,17 @@ interface Props<T> {
     data: T[];
     perPage?: number;
     onPageChange: (items: T[], page: number) => void;
+    currentPage: number;
 }
 
-function Pagination<T>({ data, perPage = 5, onPageChange }: Props<T>) {
-    const [page, setPage] = useState(1);
+function Pagination<T>({ data, perPage = 5, onPageChange, currentPage }: Props<T>) {
+    const [page, setPage] = useState(currentPage || 1);
     const total = Math.ceil(data.length / perPage);
+
+    // Đồng bộ page state với prop currentPage
+    useEffect(() => {
+        setPage(currentPage || 1);
+    }, [currentPage]);
 
     useEffect(() => {
         const start = (page - 1) * perPage;
@@ -20,18 +26,14 @@ function Pagination<T>({ data, perPage = 5, onPageChange }: Props<T>) {
 
     const paginationItems = useMemo(() => {
         const delta = 1;
+        const range: (number | string)[] = [];
 
-        const range = [];
         for (let i = Math.max(2, page - delta); i <= Math.min(total - 1, page + delta); i++) {
             range.push(i);
         }
 
-        if (page - delta > 2) {
-            range.unshift('...');
-        }
-        if (page + delta < total - 1) {
-            range.push('...');
-        }
+        if (page - delta > 2) range.unshift('...');
+        if (page + delta < total - 1) range.push('...');
 
         range.unshift(1);
         if (total > 1) range.push(total);
@@ -41,7 +43,6 @@ function Pagination<T>({ data, perPage = 5, onPageChange }: Props<T>) {
 
     return (
         <div className="flex justify-center gap-2 mt-4">
-            {/* Prev */}
             <button
                 className="flex items-center justify-center cursor-pointer p-3 disabled:opacity-50"
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
@@ -50,7 +51,6 @@ function Pagination<T>({ data, perPage = 5, onPageChange }: Props<T>) {
                 <FontAwesomeIcon icon={faArrowLeft} />
             </button>
 
-            {/* Pagination numbers */}
             {paginationItems.map((p, idx) =>
                 p === '...' ? (
                     <span key={idx} className="flex items-center justify-center p-3">
@@ -60,7 +60,7 @@ function Pagination<T>({ data, perPage = 5, onPageChange }: Props<T>) {
                     <button
                         key={idx}
                         className={`flex items-center justify-center cursor-pointer p-3 rounded hover:text-white hover:bg-[var(--main-color-hover)] ${
-                            p === page ? 'bg-[var(--main-color)]  text-white' : ''
+                            p === page ? 'bg-[var(--main-color)] text-white' : ''
                         }`}
                         onClick={() => setPage(Number(p))}
                     >
@@ -69,7 +69,6 @@ function Pagination<T>({ data, perPage = 5, onPageChange }: Props<T>) {
                 ),
             )}
 
-            {/* Next */}
             <button
                 className="flex items-center justify-center cursor-pointer p-3 disabled:opacity-50"
                 onClick={() => setPage((p) => Math.min(total, p + 1))}

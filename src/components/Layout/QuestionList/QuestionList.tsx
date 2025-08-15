@@ -7,13 +7,14 @@ import { Tooltip } from 'react-tooltip';
 function QuestionList({ questions, direction = 'vertical' }: QuestionListType) {
     const scrollRef = useRef<HTMLDivElement>(null);
     const topRef = useRef<HTMLDivElement>(null);
-
+    const [page, setPage] = useState<number>(1);
     const [currentItems, setCurrentItems] = useState<QuestionType[]>([]);
     const [showTooltip, setShowTooltip] = useState(false);
 
-    const handlePageChange = useCallback((items: QuestionType[]) => {
+    const handlePageChange = useCallback((items: QuestionType[], page: number) => {
         topRef.current?.scrollIntoView({ behavior: 'smooth' });
         setCurrentItems(items);
+        setPage(page);
     }, []);
 
     useEffect(() => {
@@ -84,7 +85,12 @@ function QuestionList({ questions, direction = 'vertical' }: QuestionListType) {
                 </div>
             </div>
             {direction === 'vertical' && (
-                <Pagination<QuestionType> data={questions} perPage={5} onPageChange={handlePageChange} />
+                <Pagination<QuestionType>
+                    data={questions}
+                    perPage={5}
+                    onPageChange={handlePageChange}
+                    currentPage={page}
+                />
             )}
         </div>
     );

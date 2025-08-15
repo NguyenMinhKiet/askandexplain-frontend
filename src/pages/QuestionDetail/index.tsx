@@ -1,77 +1,55 @@
 import type { JSX } from 'react';
 import { useEffect, useState } from 'react';
-import type { AnswerCreateType, QuestionType } from '~/types';
+import type { AnswerCreateType } from '~/types';
 import { useParams } from 'react-router-dom';
 import QuestionList from '~/components/Layout/QuestionList/QuestionList';
 import AnswerList from '~/components/Layout/AnswerList';
 import { useAuth } from '~/hooks/useAuth';
-import AnswerQuestionModal from '~/components/Layout/Modal/AnswerQuestionModal';
+import AnswerQuestionModal from '~/components/Layout/Modal/AnswerModal';
 import { useQuestion } from '~/hooks/useQuestion';
+import { DOMAIN_BACKEND } from '~/config';
 
 function QuestionDetail(): JSX.Element {
     const { questions, setQuestions } = useQuestion();
-
     const { isLogin } = useAuth();
-    const { user } = useAuth();
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [question, setQuestion] = useState<QuestionType | null>(null);
 
     const { id } = useParams();
-    useEffect(() => {
-        console.log('question: ', question);
-    }, [question]);
-    // Find question with id
-    useEffect(() => {
-        const found = questions.find((q) => q._id === id);
-        setQuestion((found as unknown as QuestionType) || null);
-    }, [questions, id]);
+
+    const question = questions.find((q) => q._id === id);
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [id]);
 
-    const handleAddAnswer = (newA: AnswerCreateType) => {
-        fetch(`http://localhost:3000/api/answers/${id}`, {
+    const handleAddAnswer = async (newA: AnswerCreateType) => {
+        const res = await fetch(`${DOMAIN_BACKEND}/api/answers/${id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
             body: JSON.stringify(newA),
-        })
-            .then(async (res) => {
-                const data = await res.json(); // đọc body JSON
-                if (!res.ok) {
-                    // ném lỗi với message từ backend
-                    throw new Error(data?.error || 'Failed to add answer');
-                }
-                return data;
-            })
-            .then((res) => {
-                setQuestions((prev) =>
-                    prev.map((q) =>
-                        q._id === id
-                            ? {
-                                  ...q,
-                                  answers: [res.data, ...q.answers],
-                                  answerCount: q.answerCount + 1,
-                              }
-                            : q,
-                    ),
-                );
-                setQuestion((prev) => {
-                    if (!prev) return prev;
+        });
 
-                    return {
-                        ...prev,
-                        answers: [res.data, ...prev.answers],
-                        answerCount: prev.answerCount + 1,
-                    };
-                });
-            })
-            .catch((err) => {
-                console.error('Error adding answer:', err.message); // in ra message từ backend
-            });
+        const data = await res.json();
+
+        if (!res.ok) {
+            console.error('Error adding answer:', data.message || data.error);
+            return;
+        }
+
+        setQuestions((prev) =>
+            prev.map((q) =>
+                q._id === id
+                    ? {
+                          ...q,
+                          answers: [data.data, ...q.answers],
+                          answerCount: q.answerCount + 1,
+                      }
+                    : q,
+            ),
+        );
     };
 
     if (!question) return <div className="p-6">❌ Câu hỏi không tồn tại.</div>;
@@ -89,13 +67,13 @@ function QuestionDetail(): JSX.Element {
                 <div className="text-sm text-gray-500 mb-6">{question.answerCount} lượt giải thích</div>
 
                 <div className="mt-8 border-t pt-4">
-                    <div className="flex justify-between">
+                    <div className="flex justify-end">
                         {isLogin && (
                             <div className="text-sm">
                                 {
                                     <button
                                         onClick={() => setShowModal(true)}
-                                        className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded cursor-pointer"
+                                        className="bg-[var(--main-color)] hover:bg-[var(--main-color-hover)] text-white py-2 px-4 rounded cursor-pointer"
                                     >
                                         + Thêm câu trả lời mới
                                     </button>
@@ -110,7 +88,7 @@ function QuestionDetail(): JSX.Element {
                         onClose={() => setShowModal(false)}
                     />
                     {question.answers && question.answers.length > 0 ? (
-                        <AnswerList answers={question.answers} currentUserId={user._id} />
+                        <AnswerList answers={question.answers} questionBase={question} />
                     ) : (
                         <p className="text-gray-500 italic">Chưa có câu trả lời nào.</p>
                     )}

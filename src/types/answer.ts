@@ -1,23 +1,23 @@
-import type { UserType } from '~/types';
+import type { QuestionType, UserType } from '~/types';
 
-export interface Answer {
+export interface AnswerType {
     _id: string;
     questionId: string;
     content: string;
     author: UserType;
     createdAt: string;
+    updatedAt: string;
     voteCount: number;
 }
 
-export interface AnswerCreate {
+export interface AnswerCreateType {
     questionId: string;
     content: string;
     author: string;
-    createdAt: string;
     voteCount: number;
 }
 
-export interface AnswerList {
-    answers: Answer[];
-    currentUserId: string;
+export interface AnswerListType {
+    questionBase: QuestionType;
+    answers: AnswerType[];
 }

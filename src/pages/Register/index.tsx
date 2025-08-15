@@ -7,10 +7,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { DOMAIN_BACKEND } from '~/config';
 // define Schema
 const registerSchema = z
     .object({
-        name: z.string().min(2, 'Tên phải có ít nhất 2 ký tự'),
+        name: z.string().min(2, 'Tên phải có ít nhất 2 ký tự').max(20, 'Tối đa 20 ký tự'),
         email: z.email('Email không hợp lệ'),
         password: z.string().min(6, 'Mật khẩu ít nhất có 6 ký tự'),
         confirmPassword: z.string(),
@@ -45,20 +46,25 @@ function Register(): JSX.Element {
         resolver: zodResolver(registerSchema),
     });
 
-    const onSubmit = (data: RegisterForm) => {
+    const onSubmit = async (data: RegisterForm) => {
         console.log('Register data: ', data);
-        try {
-            // checkData func ...
-            const token = data.email;
-            login(token);
-            navigate('/');
-        } catch (err: unknown) {
-            if (err instanceof Error) {
-                setError(err.message);
-            } else {
-                setError('Lỗi không xác định');
-            }
-        }
+        await fetch(`${DOMAIN_BACKEND}/api/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then((res) => res.json())
+            .then((res) => {
+                if (res.error) {
+                    setError(res.error);
+                    return;
+                }
+                console.log('API success:', res.message);
+                login(res.token);
+            })
+            .catch((err) => console.log('Failed to fetch: ', err));
     };
 
     return (

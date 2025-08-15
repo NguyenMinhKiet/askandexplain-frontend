@@ -29,7 +29,7 @@ function Header() {
                 <div className="hidden md:flex space-x-4 items-center">
                     {isLogin ? (
                         <>
-                            <span className="text-gray-700 font-medium">
+                            <span className="text-gray-700 font-medium line-clamp-1 max-w-[240px]">
                                 Xin chào,{' '}
                                 <span className="text-[var(--main-color)]">
                                     {user?.name ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : 'Người dùng'}

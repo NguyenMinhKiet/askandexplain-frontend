@@ -1,17 +1,20 @@
 import type { JSX } from 'react';
 import { useState } from 'react';
 
-import AskQuestionModal from '~/components/Layout/Modal/AskQuestionModal';
+import AskQuestionModal from '~/components/Layout/Modal/QuestionModal';
 import QuestionList from '~/components/Layout/QuestionList/QuestionList';
+import { DOMAIN_BACKEND } from '~/config';
+import { useAuth } from '~/hooks/useAuth';
 import { useQuestion } from '~/hooks/useQuestion';
 import type { QuestionCreateType } from '~/types';
 
 function Home(): JSX.Element {
+    const { isLogin } = useAuth();
     const [showModal, setShowModal] = useState(false);
     const { questions, setQuestions } = useQuestion();
 
-    const handleAddQuestion = (newQ: QuestionCreateType) => {
-        fetch('http://localhost:3000/api/questions', {
+    const handleAddQuestion = async (newQ: QuestionCreateType) => {
+        await fetch(`${DOMAIN_BACKEND}/api/questions`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -19,12 +22,7 @@ function Home(): JSX.Element {
             },
             body: JSON.stringify(newQ),
         })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error('Failed to add question');
-                }
-                return res.json();
-            })
+            .then((res) => res.json())
             .then((res) => {
                 setQuestions((prev) => [...prev, res.data]);
             })
@@ -43,14 +41,14 @@ function Home(): JSX.Element {
             </h1>
 
             <div className="mb-4 text-right">
-                {
+                {isLogin && (
                     <button
                         onClick={() => setShowModal(true)}
                         className="cursor-pointer bg-[var(--main-color)] hover:bg-[var(--main-color-hover)] text-white py-2 px-4 rounded"
                     >
                         + Đặt câu hỏi mới
                     </button>
-                }
+                )}
             </div>
             <AskQuestionModal isOpen={showModal} onSubmit={handleAddQuestion} onClose={() => setShowModal(false)} />
             <div className="space-y-4">

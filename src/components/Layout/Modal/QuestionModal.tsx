@@ -30,12 +30,11 @@ export default function AskQuestionModal({ isOpen, onClose, onSubmit }: Question
         const newQuestion: QuestionCreateType = {
             title: data.title,
             content: data.content,
-            author: user,
+            author: user._id,
             answerCount: 0,
             answers: [],
         };
 
-        console.log('Gửi câu hỏi:', newQuestion);
         onSubmit(newQuestion);
         reset();
         onClose();
