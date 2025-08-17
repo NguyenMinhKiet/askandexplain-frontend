@@ -95,7 +95,11 @@ function QuestionDetail(): JSX.Element {
                 </div>
             </div>
             <div className="mt-8 border-t pt-4">
-                <QuestionList questions={questions.filter((item) => item._id !== id)} direction="horizontal" />
+                {questions.length > 0 ? (
+                    <QuestionList questions={questions.filter((item) => item._id !== id)} direction="horizontal" />
+                ) : (
+                    <p>Không có dữ liệu</p>
+                )}
             </div>
         </div>
     );

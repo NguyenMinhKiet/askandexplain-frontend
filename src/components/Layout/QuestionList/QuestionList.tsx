@@ -84,15 +84,13 @@ function QuestionList({ questions, direction = 'vertical' }: QuestionListType) {
                     ))}
                 </div>
             </div>
-            {direction === 'vertical' && questions.length > 0 ? (
+            {direction === 'vertical' && questions.length > 0 && (
                 <Pagination<QuestionType>
                     data={questions}
                     perPage={5}
                     onPageChange={handlePageChange}
                     currentPage={page}
                 />
-            ) : (
-                <p>Không có câu hỏi</p>
             )}
         </div>
     );
