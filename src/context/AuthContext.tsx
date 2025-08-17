@@ -32,11 +32,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     }, [token]);
 
-    const login = (token: string) => {
+    const login = (newToken: string) => {
         try {
-            const decoded = jwtDecode<DecodedTokenType>(token);
-            localStorage.setItem('token', token);
+            const decoded = jwtDecode<DecodedTokenType>(newToken);
+            localStorage.setItem('token', newToken);
             setUser({ _id: decoded.userId, email: decoded.email, name: decoded.name });
+            setToken(newToken);
             setIsLogin(true);
         } catch (err) {
             console.error('Error: ', err);
@@ -47,6 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const logout = () => {
         setUser(defaultUser);
         localStorage.removeItem('token');
+        setToken('');
         setIsLogin(false);
     };
 
