@@ -1,6 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
-import { type DecodedToken } from '../types';
+import { type DecodedTokenType } from '../types';
 
-export function decodeToken(token: string): DecodedToken {
+export function decodeToken(token: string): DecodedTokenType {
     return jwtDecode(token);
 }
