@@ -87,7 +87,7 @@ function QuestionDetail(): JSX.Element {
                         onSubmit={handleAddAnswer}
                         onClose={() => setShowModal(false)}
                     />
-                    {question.answers && question.answers.length > 0 ? (
+                    {question.answers && (question.answers.length ?? 0) > 0 ? (
                         <AnswerList answers={question.answers} questionBase={question} />
                     ) : (
                         <p className="text-gray-500 italic">Chưa có câu trả lời nào.</p>
@@ -95,7 +95,7 @@ function QuestionDetail(): JSX.Element {
                 </div>
             </div>
             <div className="mt-8 border-t pt-4">
-                {questions.length > 0 ? (
+                {(questions.length ?? 0) > 0 ? (
                     <QuestionList questions={questions.filter((item) => item._id !== id)} direction="horizontal" />
                 ) : (
                     <p>Không có dữ liệu</p>
