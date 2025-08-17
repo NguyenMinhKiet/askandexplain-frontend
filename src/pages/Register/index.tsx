@@ -47,7 +47,6 @@ function Register(): JSX.Element {
     });
 
     const onSubmit = async (data: RegisterForm) => {
-        console.log('Register data: ', data);
         await fetch(`${DOMAIN_BACKEND}/api/register`, {
             method: 'POST',
             headers: {
