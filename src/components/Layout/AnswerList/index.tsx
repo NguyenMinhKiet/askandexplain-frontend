@@ -157,6 +157,7 @@ function AnswerList({ answers, questionBase }: AnswerListType) {
     };
 
     const maxVote = Math.max(...answers.map((a) => a.voteCount ?? 0));
+    const bestAnswer = answers.filter((a) => (a.voteCount ?? 0) > 0 && a.voteCount === maxVote)[0];
 
     return (
         <div className="max-w-4xl mx-auto p-6">
@@ -166,7 +167,7 @@ function AnswerList({ answers, questionBase }: AnswerListType) {
                 {currentItems
                     .sort((a, b) => (b.voteCount ?? 0) - (a.voteCount ?? 0))
                     .map((answer) => {
-                        const isBestAnswer = answer.voteCount === maxVote && answer.voteCount! > 0;
+                        const isBestAnswer = answer._id === bestAnswer?._id;
 
                         return (
                             <div

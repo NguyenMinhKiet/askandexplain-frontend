@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             try {
                 const decoded = jwtDecode<DecodedTokenType>(token);
                 setUser({ _id: decoded.userId, email: decoded.email, name: decoded.name });
+                setIsLogin(true);
             } catch (err) {
                 console.error('Error: ', err);
                 console.error('Invalid token');
